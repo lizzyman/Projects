@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memo</title>
+</head>
+
+<style>
+    input:focus, textarea:focus {
+        outline: none;
+    }
+</style>
+
+<body>
+<%
+    if (locals.id) {%>
+    <form id="memoForm" method="post" action="/memo/update/<%= id %>">
+<%
+    }
+%>
+    <div id="content" style="width: 400px; height: 340px">
+        <div id="head" style="width: 400px; height: 30px; text-align: right;">
+            <div style="display: inline-block">
+                Memo
+                <a href="/new"><img src='/create-new-pencil-button.png' style="width: 21px; height: 21px" /></a>
+            </div>
+            <%
+            if (locals.id) {%>
+            <div style="display: inline-block">
+                <input type="image" id="updateBtn" src="/refresh.png" style="width: 21px; height: 21px"/>
+                <a href="/memo/delete/<%= id %>"><img src='/trash.png' style="width: 21px; height: 21px" /></a>
+                <!--<a href="javascript:document.memoForm.submit();"><img src='/refresh.png' style="width: 21px; height: 21px" /></a>-->
+            </div>
+            <% } %>
+        </div>
+        <hr />
+        <div id="div1" style="font-weight: bold; display: inline-block; background-color: gainsboro; width: 180px; height: 310px">
+            <table style="text-align: center; margin: 0 auto;">
+                <%
+                    for(let item of items) {
+                %>
+                <tr>
+                    <td><a onMouseover="this.style.color='#e86d9f';" onMouseout="this.style.color='dimgray';"
+                           href="/memo/<%= item.id %>" style="text-decoration: none; color: dimgray"><%= item.subject %></a></td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
+        </div>
+        <div id="div2" style="text-align: left; vertical-align: top; display: inline-block; background-color: transparent; width: 214px; height: 310px; word-break:break-all;">
+
+<%
+if (locals.id) {%>
+
+            <textarea name="subject" style="width: 207px; height: 15px; background-color:transparent; border:1px solid gainsboro; resize: none; overflow-y:hidden">
+<%= items[id].subject %>
+            </textarea>
+            <textarea name="content" style="width: 207px; height: 280px; background-color:transparent; border:1px solid gainsboro; resize: none">
+<%= items[id].content %>
+             </textarea>
+
+<%}
+%>
+
+        </div>
+    </div>
+
+<%
+    if (locals.id) {%>
+    </form>
+<%
+    }
+%>
+
+</body>
+</html>

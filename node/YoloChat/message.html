@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+        $().ready(function(){
+
+        });
+    </script>
+
+<body>
+
+    <div id="chattingBody">
+        <div style="text-align: center">
+            <input type="text" id="chat" style="width: 350px; margin: auto;"/>
+            <input type="button" id="button" value="Send" style="margin-left: 20px;"/><br/>
+        </div>
+        <div id="chattingBox"></div>
+    </div>
+
+    <div id="connectedUsers"></div>
+
+    <div id="hiddenButton"></div>
+
+</body>
+</head>
+</html>

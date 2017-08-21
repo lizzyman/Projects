@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- ECMA Script(ES) Module Loader : 모듈을 처리하기 위해서 반드시 필요 -->
+    <script type="text/javascript" src="node_modules/systemjs/dist/system.src.js"></script>
+
+    <!-- ES5 와 ES6/7 과의 호환을 위한 라이브러리 -->
+    <script type="text/javascript" src="node_modules/es6-shim/es6-shim.min.js"></script>
+
+    <!-- 모든 브라우저에서 Angular가 실행될 수 있도록 지원하는 라이브러리 (Reactive Programming을 위한 비동기 지원 라이브러리) -->
+    <script type="text/javascript" src="node_modules/zone.js/dist/zone.js"></script>
+
+    <!-- Angular 와 TypeScript를 위한 컴파일러 (디렉티브 지원) -->
+    <script type="text/javascript" src="node_modules/reflect-metadata/Reflect.js"></script>
+
+    <!-- Reactive Programming 라이브러리 -->
+    <script type="text/javascript" src="node_modules/rxjs/bundles/Rx.js"></script>
+
+    <script type="text/javascript" src="systemjs.config.js"></script>
+    <script type="text/javascript">
+
+        System.import("app").catch(function (err) {
+            console.log(err);
+        });
+
+    </script>
+
+</head>
+<body>
+
+    <my-app>Loading App...</my-app>
+
+</body>
+</html>

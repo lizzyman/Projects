@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+        // Spring이 접근하기 위해  $().ready(); 밖에서 선언
+
+        document.addEventListener('DOMContentLoaded',function(){
+        //$().ready(function(){
+            console.log(document.getElementById("loginUserId").value);
+            var name = document.getElementById("loginUserId").value;
+            var myId = "";
+            var receiver = "all";
+
+            var socket = io.connect("http://localhost:3000"); // socket 연결
+
+
+            // 대화방 접속
+            socket.emit("join", name); // socket이 join을 호출
+
+            // 고유 아이디 받기
+            socket.on("getMyId",function(id){
+                myId = id; // 파라미터로 전달받은 id를 myId에 넣어준다.
+            });
+
+            /*/!*!// 접속 사용자 보여주기
+             socket.on("displayAllUsers", function(allUsers) { // socket.on = 이벤트 발생
+             console.log(allUsers);
+
+             // 접속자 현황 초기화
+             $("#connectedUsers").html("");
+
+             // 접속자 현황 갱신
+             for(var i in allUsers) {
+             $("#connectedUsers").append($("<div data-id='" + allUsers[i].id + "'>" + allUsers[i].name + "</div>"));
+             }
+
+             $("#connectedUsers").append($("<div data-id='all'>Send to all</div>"))
+             });*!/
+
+            /!*$("#connectedUsers").on("click", "div", function() {
+             //alert($(this).data("id"));
+             receiver = $(this).data("id");
+             });*!/*/
+
+            // 메세지 전달 받기
+            socket.on("receive",function(data){
+                var message = $("<div style='margin-top:5px;'>"+data.name+" | "+ data.chat  + "</div>");
+
+                if( myId == data.sender ){
+                    if (data.receiver != "all") {
+                        message = $("<div style='margin-top:5px;'>"+data.name+"(secret) | "+ data.chat  + "</div>");
+                    }
+                    message.css({
+                        "color" : "#FF0000"
+                    });
+                }
+
+                else if (data.receiver != "all") {
+                    message = $("<div style='margin-top:5px;'>"+data.name+"(secret) | "+ data.chat  + "</div>");
+                    message.css({
+                        "color" : "#0053d8"
+                    });
+                }
+
+                $("#chattingBox").append(message);
+            });
+
+        });
+    </script>
+    
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Inconsolata');
+    </style>
+
+<body>
+
+    <!--<div id="chattingBody" style="display: inline-block; margin: auto; vertical-align: top; width:500px; font-family: 'Inconsolata', monospace;">
+       &lt;!&ndash; <div style="text-align: center">
+            <input type="text" id="chat" style="width: 350px; margin: auto;"/>
+            <input type="button" id="button" value="Send" style="margin-left: 20px;"/><br/>
+        </div>&ndash;&gt;
+        <div id="chattingBox" style="overflow: auto; margin-left: 40px; margin-top: 10px"></div>
+    </div>
+
+    <div id="connectedUsers" style="padding-top: 20px;padding-bottom: 20px; display: inline-block; margin: auto; width:150px; background-color: #e1e3e8; text-align: center; font-family: 'Inconsolata', monospace;"></div>-->
+    <form id="messageForm">
+        <input id="loginUserId" type="hidden" name="sender" value="${loginUser.userId}"><!-- Session UserId value값으로 바꿔주기! -->
+        <input id="receiver" type="hidden" name="receiver" value="test">
+        <textarea id="content" name="content"></textarea><br/>
+        <input type="button" id="submitBtn" value="Send" />
+    </form>
+
+</body>
+</head>
+</html>
